@@ -1,6 +1,6 @@
 # zapconfig
 
-:smile: zapconfig
+:smile: zap logger configurations
 
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/moul.io/zapconfig)
 [![License](https://img.shields.io/badge/license-Apache--2.0%20%2F%20MIT-%2397ca00.svg)](https://github.com/moul/zapconfig/blob/master/COPYRIGHT)
@@ -19,16 +19,14 @@
 
 ## Usage
 
-[embedmd]:# (.tmp/usage.txt console)
-```console
-foo@bar:~$ zapconfig
-            _                                                   _                      _        _
- __ _  ___ | | __ _  _ _   __ _  ___  _ _  ___  _ __  ___  ___ | |_  ___  _ __   _ __ | | __ _ | |_  ___
-/ _` |/ _ \| |/ _` || ' \ / _` ||___|| '_|/ -_)| '_ \/ _ \|___||  _|/ -_)| '  \ | '_ \| |/ _` ||  _|/ -_)
-\__, |\___/|_|\__,_||_||_|\__, |     |_|  \___|| .__/\___/      \__|\___||_|_|_|| .__/|_|\__,_| \__|\___|
-|___/                     |___/                |_|                              |_|
-12 CPUs, /home/moul/go/bin/zapconfig, fwrz, go1.15
-Hello World!
+[embedmd]:# (example_test.go /import\ / $)
+```go
+import "moul.io/zapconfig"
+
+func Example() {
+	logger := zapconfig.Configurator{}.MustBuildLogger()
+	logger.Info("hello!")
+}
 ```
 
 ## Install
@@ -36,7 +34,7 @@ Hello World!
 ### Using go
 
 ```console
-$ go get -u moul.io/zapconfig
+$ go get moul.io/zapconfig
 ```
 
 ### Releases
