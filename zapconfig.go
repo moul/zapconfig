@@ -11,19 +11,27 @@ import (
 // Configurator is the main object of this package.
 // Leaving it empty will generate an opinionated sane default zap.Config.
 type Configurator struct {
-	zap.Config
+	opts zap.Config
 }
 
 // SetOutputPath sets zap.Config.OutputPaths and c.Config.ErrorOutputPaths with the given path.
-func (c *Configurator) SetOutputPath(dest string) {
-	c.OutputPaths = []string{dest}
-	c.ErrorOutputPaths = []string{dest}
+func (c *Configurator) SetOutputPath(dest string) *Configurator {
+	c.opts.OutputPaths = []string{dest}
+	c.opts.ErrorOutputPaths = []string{dest}
+	return c
 }
 
 // SetOutputPaths sets zap.Config.OutputPaths and c.Config.ErrorOutputPaths with the given paths.
-func (c *Configurator) SetOutputPaths(dests []string) {
-	c.OutputPaths = dests
-	c.ErrorOutputPaths = dests
+func (c *Configurator) SetOutputPaths(dests []string) *Configurator {
+	c.opts.OutputPaths = dests
+	c.opts.ErrorOutputPaths = dests
+	return c
+}
+
+// SetLevel sets the minimal logging level.
+func (c *Configurator) SetLevel(level zapcore.Level) *Configurator {
+	c.opts.Level = zap.NewAtomicLevelAt(level)
+	return c
 }
 
 // IsEmpty checks whether the Configurator isn't touched (default value) or if it was modified.
@@ -31,9 +39,9 @@ func (c Configurator) IsEmpty() bool {
 	return reflect.DeepEqual(c, Configurator{})
 }
 
-// BuildConfig builds a zap.Config.
-func (c Configurator) BuildConfig() (zap.Config, error) {
-	copy := c.Config
+// Config builds a zap.Config.
+func (c Configurator) Config() (zap.Config, error) {
+	copy := c.opts
 
 	if copy.OutputPaths == nil {
 		copy.OutputPaths = []string{"stderr"}
@@ -61,32 +69,24 @@ func (c Configurator) BuildConfig() (zap.Config, error) {
 
 // String implements Stringer.
 func (c Configurator) String() string {
-	if c.IsEmpty() {
-		return "{}"
+	copy := c.opts
+	if copy.Level == (zap.AtomicLevel{}) {
+		copy.Level = zap.NewAtomicLevel()
 	}
-	return fmt.Sprintf("%v", c.Config)
-}
-
-// MustBuildConfig is equivalent to BuildConfig but will panic in case of error instead of returning it.
-func (c Configurator) MustBuildConfig() zap.Config {
-	config, err := c.BuildConfig()
-	if err != nil {
-		panic(err)
-	}
-	return config
+	return fmt.Sprintf("%v", copy)
 }
 
 // BuildLogger returns a configured *zap.Logger.
-func (c Configurator) BuildLogger() (*zap.Logger, error) {
-	config, err := c.BuildConfig()
+func (c Configurator) Build() (*zap.Logger, error) {
+	config, err := c.Config()
 	if err != nil {
 		return nil, err
 	}
 	return config.Build()
 }
 
-func (c Configurator) MustBuildLogger() *zap.Logger {
-	logger, err := c.BuildLogger()
+func (c Configurator) MustBuild() *zap.Logger {
+	logger, err := c.Build()
 	if err != nil {
 		panic(err)
 	}
