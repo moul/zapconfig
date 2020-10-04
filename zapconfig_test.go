@@ -49,21 +49,60 @@ func TestBuilder(t *testing.T) {
 	var cases = []struct {
 		name    string
 		setupFn func(config *Configurator)
+		checkFn (func(t *testing.T, config *zap.Config))
 	}{
-		{"no-action", func(config *Configurator) {}},
-		{"setlevel-debug", func(config *Configurator) { config.SetLevel(zap.DebugLevel) }},
-		{"setlevel-warn", func(config *Configurator) { config.SetLevel(zap.WarnLevel) }},
-		{"setoutput-stdout", func(config *Configurator) { config.SetOutputPath("stdout") }},
-		{"setoutput-stderr", func(config *Configurator) { config.SetOutputPath("stderr") }},
+		{"no-action", nil, nil},
+		{"setlevel-debug", func(config *Configurator) { config.SetLevel(zap.DebugLevel) }, nil},
+		{"setlevel-warn", func(config *Configurator) { config.SetLevel(zap.WarnLevel) }, nil},
+		// SetOutputPath
+		{"setoutput-default",
+			nil,
+			func(t *testing.T, config *zap.Config) {
+				require.Equal(t, config.OutputPaths, []string{"stderr"})
+				require.Equal(t, config.ErrorOutputPaths, []string{"stderr"})
+			},
+		},
+		{"setoutput-stdout",
+			func(config *Configurator) { config.SetOutputPath("stdout") },
+			func(t *testing.T, config *zap.Config) {
+				require.Equal(t, config.OutputPaths, []string{"stdout"})
+				require.Equal(t, config.ErrorOutputPaths, []string{"stdout"})
+			},
+		},
+		{"setoutput-stderr",
+			func(config *Configurator) { config.SetOutputPath("stderr") },
+			func(t *testing.T, config *zap.Config) {
+				require.Equal(t, config.OutputPaths, []string{"stderr"})
+				require.Equal(t, config.ErrorOutputPaths, []string{"stderr"})
+			},
+		},
+		// stacktrace
+		{"default-stacktrace",
+			nil,
+			func(t *testing.T, config *zap.Config) { require.True(t, config.DisableStacktrace) },
+		},
+		{"EnableStacktrace",
+			func(config *Configurator) { config.EnableStacktrace() },
+			func(t *testing.T, config *zap.Config) { require.False(t, config.DisableStacktrace) },
+		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			config := Configurator{}
-			tc.setupFn(&config)
+			configurator := Configurator{}
+			if tc.setupFn != nil {
+				tc.setupFn(&configurator)
+			}
+			config, err := configurator.Config()
+			require.NoError(t, err)
+			require.NotNil(t, config)
+
+			if tc.checkFn != nil {
+				tc.checkFn(t, &config)
+			}
+
 			logger, err := config.Build()
 			require.NoError(t, err)
 			require.NotNil(t, logger)
-			// fmt.Println(config)
 		})
 	}
 }

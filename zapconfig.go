@@ -11,7 +11,8 @@ import (
 // Configurator is the main object of this package.
 // Leaving it empty will generate an opinionated sane default zap.Config.
 type Configurator struct {
-	opts zap.Config
+	opts       zap.Config
+	stacktrace bool
 }
 
 // SetOutputPath sets zap.Config.OutputPaths and c.Config.ErrorOutputPaths with the given path.
@@ -25,6 +26,12 @@ func (c *Configurator) SetOutputPath(dest string) *Configurator {
 func (c *Configurator) SetOutputPaths(dests []string) *Configurator {
 	c.opts.OutputPaths = dests
 	c.opts.ErrorOutputPaths = dests
+	return c
+}
+
+// EnableStacktrace forces stacktraces to be enabled.
+func (c *Configurator) EnableStacktrace() *Configurator {
+	c.stacktrace = true
 	return c
 }
 
@@ -59,8 +66,7 @@ func (c Configurator) Config() (zap.Config, error) {
 		copy.EncoderConfig = zap.NewDevelopmentEncoderConfig()
 		copy.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
-	// FIXME: easy way to disable this
-	copy.DisableStacktrace = true
+	copy.DisableStacktrace = !c.stacktrace
 	// FIXME: based on a flag or guess with env vars
 	copy.Development = true
 
