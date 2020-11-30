@@ -81,5 +81,5 @@ gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 honnef.co/go/tools v0.0.1-2019.2.3 h1:3JgtbtFHMiCmsznwGVTUWbgGov+pVqnlf1dEJTNAXeM=
 honnef.co/go/tools v0.0.1-2019.2.3/go.mod h1:a3bituU0lyd329TUQxRnasdCoJDkEUEAqEt0JzvZhAg=
-moul.io/u v1.19.0 h1:TYzVanlhOK5suW4Q63OSO0qfy9IjNZUPu4IKl7e23Zw=
-moul.io/u v1.19.0/go.mod h1:KaaCftEbxFzGdKI+elj1xeRVrlmZvd9oa5sDhJ3qzFU=
+moul.io/u v1.19.1 h1:DOy8779oAik+ccW44X3Yp+Wz7dqR5FcHBLCv752gkU0=
+moul.io/u v1.19.1/go.mod h1:KaaCftEbxFzGdKI+elj1xeRVrlmZvd9oa5sDhJ3qzFU=
