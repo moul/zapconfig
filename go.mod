@@ -7,5 +7,5 @@ require (
 	github.com/tailscale/depaware v0.0.0-20201102210757-e2f543bafb1d
 	go.uber.org/multierr v1.6.0
 	go.uber.org/zap v1.16.0
-	moul.io/u v1.19.0
+	moul.io/u v1.19.1
 )
