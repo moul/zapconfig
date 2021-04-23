@@ -18,6 +18,11 @@ type Configurator struct {
 	configErr  error
 }
 
+// New instanciates a Configurator.
+func New() *Configurator {
+	return &Configurator{}
+}
+
 // SetOutputPath sets zap.Config.OutputPaths and c.Config.ErrorOutputPaths with the given path.
 func (c *Configurator) SetOutputPath(dest string) *Configurator {
 	c.opts.OutputPaths = []string{dest}
