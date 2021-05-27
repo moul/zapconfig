@@ -55,7 +55,7 @@ const (
 )
 
 // AvailablePresets is the list of preset supported by `SetPreset`.
-var AvailablePresets = []string{"console", "json", "light-console", "light-json"}
+var AvailablePresets = []string{"console", "json", "light-console", "light-json", "testing"}
 
 // SetPreset configures various things based on just a keyword.
 func (c *Configurator) SetPreset(name string) *Configurator {
@@ -80,6 +80,12 @@ func (c *Configurator) SetPreset(name string) *Configurator {
 		c.opts.EncoderConfig = zap.NewProductionEncoderConfig()
 		c.opts.Encoding = jsonEncoding
 		c.opts.EncoderConfig.TimeKey = ""
+	case "testing":
+		c.opts.EncoderConfig = zap.NewDevelopmentEncoderConfig()
+		c.opts.Encoding = consoleEncoding
+		c.opts.EncoderConfig.TimeKey = ""
+		c.opts.EncoderConfig.EncodeLevel = stableWidthCapitalLevelEncoder
+		c.opts.EncoderConfig.EncodeName = stableWidthNameEncoder
 	default:
 		c.configErr = multierr.Append(c.configErr, fmt.Errorf("unknown preset: %q", name)) // nolint:goerr113
 	}

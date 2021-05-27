@@ -6,9 +6,9 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-/*func stableWidthCapitalLevelEncoder(l zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
+func stableWidthCapitalLevelEncoder(l zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(fmt.Sprintf("%-5s", l.CapitalString()))
-}*/
+}
 
 func stableWidthNameEncoder(loggerName string, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(fmt.Sprintf("%-18s", loggerName))

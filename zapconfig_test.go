@@ -227,6 +227,16 @@ func TestBuilder(t *testing.T) {
 				require.NotEqual(t, output[1], `{"level":"info","logger":"foobar","caller":"zapconfig/zapconfig_test.go:17","msg":"hello world!","baz":42}`)
 			},
 		},
+		{"set-preset-testing",
+			func(config *Configurator) {
+				config.SetPreset("testing")
+			},
+			func(t *testing.T, config *zap.Config, output []string, err error) {
+				require.NoError(t, err)
+				require.Equal(t, "DEBUG\tzapconfig/zapconfig_test.go:16\thello world!\t{\"foo\": \"bar\"}", output[0])
+				require.Equal(t, "INFO \tfoobar            \tzapconfig/zapconfig_test.go:17\thello world!\t{\"baz\": 42}", output[1])
+			},
+		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
