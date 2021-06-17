@@ -69,5 +69,5 @@ gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b h1:h8qDotaEPuJATrMmW04NCwg7v22aHH28wwpauUhK9Oo=
 gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
-moul.io/u v1.24.0 h1:USCFlvwr26ej2WMYTbS3XMsjq7UfziUpKQjH5kApIPY=
-moul.io/u v1.24.0/go.mod h1:ytlQ/zt+Sdk+PFGEx+fpTivoa0ieA5yMo6itRswIWNQ=
+moul.io/u v1.25.0 h1:B1i5GnqI846BS3wVvSSvNkWZh8mSOtr7qLbp7dwp8hM=
+moul.io/u v1.25.0/go.mod h1:ytlQ/zt+Sdk+PFGEx+fpTivoa0ieA5yMo6itRswIWNQ=
